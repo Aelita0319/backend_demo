@@ -29,7 +29,7 @@ public class MainController {
 
         User n = new User();
         n.setId(id);
-        n.setCompany_name(name);
+        n.setCompanyName(name);
         n.setPrinciple(principle);
         usersRepository.save(n);
         return "Saved";

@@ -12,8 +12,13 @@ public class Bank {
     @Column(nullable = false)
     private String name;
 
+    @Column()
     private Double arg1;
+
+    @Column()
     private Double arg2;
+
+    @Column()
     private Double arg3;
 
     public Bank() {

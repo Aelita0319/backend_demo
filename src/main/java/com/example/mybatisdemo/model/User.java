@@ -10,8 +10,8 @@ public class User {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
-    @Column(nullable = false)
-    private String company_name;
+    @Column(name = "company_name", nullable = false)
+    private String companyName;
 
     @Column(nullable = false)
     private Double principle;
@@ -19,9 +19,9 @@ public class User {
     public User() {
     }
 
-    public User(Integer id, String company_name, Double principle) {
+    public User(Integer id, String companyName, Double principle) {
         this.id = id;
-        this.company_name = company_name;
+        this.companyName = companyName;
         this.principle = principle;
     }
 
@@ -33,12 +33,12 @@ public class User {
         this.id = id;
     }
 
-    public String getCompany_name() {
-        return company_name;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setCompany_name(String company_name) {
-        this.company_name = company_name;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public Double getPrinciple() {
@@ -53,7 +53,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "ID=" + id +
-                ", NAME='" + company_name + '\'' +
+                ", NAME='" + companyName + '\'' +
                 '}';
     }
 }

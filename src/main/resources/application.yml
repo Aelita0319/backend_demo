@@ -27,7 +27,7 @@ spring:
     show-sql: true # 打印 SQL 。生产环境，建议关闭
     # Hibernate 配置内容，对应 HibernateProperties 类
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
 
 #server:
 #  port: 4567

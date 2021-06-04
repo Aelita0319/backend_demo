@@ -37,6 +37,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    //druid
+    implementation 'com.alibaba:druid-spring-boot-starter:1.1.10'
+    runtimeOnly 'org.postgresql:postgresql'
 }
 
 test {

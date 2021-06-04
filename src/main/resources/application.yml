@@ -14,3 +14,18 @@ spring:
     # Hibernate 配置内容，对应 HibernateProperties 类
     hibernate:
       ddl-auto: none
+
+#server:
+#  port: 4567
+#
+#spring:
+#  datasource:
+#    username: postgres
+#    password: 123123
+#    url: jdbc:postgresql://localhost:5432/postgres
+#    driver-class-name: org.postgresql.Driver
+#  jpa:
+#    database-platform: org.hibernate.dialect.PostgreSQL95Dialect  #设置方言
+#    properties:
+#      hibernate:
+#        jdbc.lob.non_contextual_creation: true #防止postgresql数据库因未实现CLOB格式而造成的数据检查出错

@@ -11,7 +11,7 @@ public class Transaction {
     private Integer id;
 
     @Column(name = "payer", nullable = false)
-    private int payerId;
+    private int payer;
 
     @Column(name = "receiver", nullable = false)
     private int receiverId;
@@ -27,9 +27,9 @@ public class Transaction {
 
     public Transaction() {}
 
-    public Transaction(Integer id, int payerId, int receiverId, double amount, int status, int type) {
+    public Transaction(Integer id, int payer, int receiverId, double amount, int status, int type) {
         this.id = id;
-        this.payerId = payerId;
+        this.payer = payer;
         this.receiverId = receiverId;
         this.amount = amount;
         this.status = status;
@@ -44,12 +44,12 @@ public class Transaction {
         this.id = id;
     }
 
-    public int getPayerId() {
-        return payerId;
+    public int getPayer() {
+        return payer;
     }
 
-    public void setPayerId(int payerId) {
-        this.payerId = payerId;
+    public void setPayer(int payerId) {
+        this.payer = payerId;
     }
 
     public int getReceiverId() {

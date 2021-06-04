@@ -19,7 +19,7 @@ import java.util.Scanner;
 
 public class client {
     static Logger logger = LoggerFactory.getLogger(client.class);
-
+    static String ContractAddress;
     private BcosSDK bcosSDK;
     private Client client;
     private CryptoKeyPair cryptoKeyPair;
@@ -49,54 +49,56 @@ public class client {
         }
     }
     public void recordTest1Addr(String address) throws FileNotFoundException, IOException {
-        Properties prop = new Properties();
-        prop.setProperty("address", address);
-        final Resource contractResource = new ClassPathResource("contract.properties");
-        FileOutputStream fileOutputStream = new FileOutputStream(contractResource.getFile());
-        prop.store(fileOutputStream, "contract address");
+//        Properties prop = new Properties();
+//        prop.setProperty("address", address);
+//        final Resource contractResource = new ClassPathResource("contract.properties");
+        ContractAddress=address;
+//        FileOutputStream fileOutputStream = new FileOutputStream(contractResource.getFile());
+//        prop.store(fileOutputStream, "contract address");
     }
     public static void Usage() {
         System.out.println(" Usage:");
         System.out.println(
-                "\t java -cp conf/:lib/*:apps/* org.fisco.bcos.asset.client.AssetClient deploy");
+                "\t java -cp conf/:lib/*:apps/* org.fisco.bcos.Test1.client.Test1Client deploy");
         System.out.println(
-                "\t java -cp conf/:lib/*:apps/* org.fisco.bcos.asset.client.AssetClient query account");
+                "\t java -cp conf/:lib/*:apps/* org.fisco.bcos.Test1.client.Test1Client query account");
         System.out.println(
-                "\t java -cp conf/:lib/*:apps/* org.fisco.bcos.asset.client.AssetClient register account value");
+                "\t java -cp conf/:lib/*:apps/* org.fisco.bcos.Test1.client.Test1Client register account value");
         System.out.println(
-                "\t java -cp conf/:lib/*:apps/* org.fisco.bcos.asset.client.AssetClient transfer from_account to_account amount");
+                "\t java -cp conf/:lib/*:apps/* org.fisco.bcos.Test1.client.Test1Client transfer from_account to_account amount");
         System.exit(0);
     }
-    public String loadAssetAddr() throws Exception {
-        // load Asset contact address from contract.properties
-        Properties prop = new Properties();
-        final Resource contractResource = new ClassPathResource("contract.properties");
-        prop.load(contractResource.getInputStream());
+    public String loadTest1Addr() throws Exception {
+        // load Test1 contact address from contract.properties
+//        Properties prop = new Properties();
+//        final Resource contractResource = new ClassPathResource("contract.properties");
+//        prop.load(contractResource.getInputStream());
 
-        String contractAddress = prop.getProperty("address");
+//        String contractAddress = prop.getProperty("address");
+        String contractAddress=ContractAddress;
         if (contractAddress == null || contractAddress.trim().equals("")) {
-            throw new Exception(" load Asset contract address failed, please deploy it first. ");
+            throw new Exception(" load Test1 contract address failed, please deploy it first. ");
         }
-        logger.info(" load Asset address from contract.properties, address is {}", contractAddress);
+        logger.info(" load Test1 address from contract.properties, address is {}", contractAddress);
         return contractAddress;
     }
     public void setRate(BigInteger ra) throws Exception {
-        String contractAddress=loadAssetAddr();
+        String contractAddress=loadTest1Addr();
         Test1 test1=Test1.load(contractAddress,client,cryptoKeyPair);
         test1.setRate(ra);
     }
     public void signIn(BigInteger id, String name, BigInteger balance, String password) throws Exception {
-        String contractAddress=loadAssetAddr();
+        String contractAddress=loadTest1Addr();
         Test1 test1=Test1.load(contractAddress,client,cryptoKeyPair);
         test1.signIn(id,name,balance,password);
     }
     public void logIn(BigInteger id, String password) throws Exception {
-        String contractAddress=loadAssetAddr();
+        String contractAddress=loadTest1Addr();
         Test1 test1=Test1.load(contractAddress,client,cryptoKeyPair);
         test1.logIn(id,password);
     }
     public BigInteger query(BigInteger id) throws Exception {
-        String contractAddress=loadAssetAddr();
+        String contractAddress=loadTest1Addr();
         Test1 test1=Test1.load(contractAddress,client,cryptoKeyPair);
         return test1.query(id);
     }

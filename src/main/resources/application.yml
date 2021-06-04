@@ -19,7 +19,7 @@ spring:
   # datasource 数据源配置内容
   datasource:
     url: jdbc:mysql://10.20.0.57:3306/blockchain?serverTimezone=UTC
-    driver-class-name: com.mysql.jdbc.Driver 
+    driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: 1234
   # JPA 配置内容，对应 JpaProperties 类

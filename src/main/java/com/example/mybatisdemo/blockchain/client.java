@@ -43,18 +43,11 @@ public class client {
 
             recordTest1Addr(test1.getContractAddress());
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            // e.printStackTrace();
             System.out.println(" deploy Test1 contract failed, error message is  " + e.getMessage());
         }
     }
-    public void recordTest1Addr(String address) throws FileNotFoundException, IOException {
-//        Properties prop = new Properties();
-//        prop.setProperty("address", address);
-//        final Resource contractResource = new ClassPathResource("contract.properties");
+    public void recordTest1Addr(String address)  {
         ContractAddress=address;
-//        FileOutputStream fileOutputStream = new FileOutputStream(contractResource.getFile());
-//        prop.store(fileOutputStream, "contract address");
     }
     public static void Usage() {
         System.out.println(" Usage:");
@@ -69,12 +62,6 @@ public class client {
         System.exit(0);
     }
     public String loadTest1Addr() throws Exception {
-        // load Test1 contact address from contract.properties
-//        Properties prop = new Properties();
-//        final Resource contractResource = new ClassPathResource("contract.properties");
-//        prop.load(contractResource.getInputStream());
-
-//        String contractAddress = prop.getProperty("address");
         String contractAddress=ContractAddress;
         if (contractAddress == null || contractAddress.trim().equals("")) {
             throw new Exception(" load Test1 contract address failed, please deploy it first. ");
@@ -87,10 +74,10 @@ public class client {
         Test1 test1=Test1.load(contractAddress,client,cryptoKeyPair);
         test1.setRate(ra);
     }
-    public void signIn(BigInteger id, String name, BigInteger balance, String password) throws Exception {
+    public boolean signIn(BigInteger id, String name, BigInteger balance, String password) throws Exception {
         String contractAddress=loadTest1Addr();
         Test1 test1=Test1.load(contractAddress,client,cryptoKeyPair);
-        test1.signIn(id,name,balance,password);
+        return test1.signIn(id,name,balance,password);
     }
     public void logIn(BigInteger id, String password) throws Exception {
         String contractAddress=loadTest1Addr();
@@ -102,8 +89,38 @@ public class client {
         Test1 test1=Test1.load(contractAddress,client,cryptoKeyPair);
         return test1.query(id);
     }
+    public void buy(BigInteger id1,BigInteger id2,BigInteger amount) throws Exception {
+        String contractAddress=loadTest1Addr();
+        Test1 test1=Test1.load(contractAddress,client,cryptoKeyPair);
+        test1.buy(id1,id2,amount);
+    }
+    public void loans(BigInteger id,BigInteger amount) throws Exception {
+        String contractAddress=loadTest1Addr();
+        Test1 test1=Test1.load(contractAddress,client,cryptoKeyPair);
+        test1.loans(id,amount);
+    }
+    public void receipt(BigInteger id1,BigInteger id2,BigInteger amount) throws Exception {
+        String contractAddress=loadTest1Addr();
+        Test1 test1=Test1.load(contractAddress,client,cryptoKeyPair);
+        test1.receipt(id1,id2,amount);
+    }
+    public BigInteger getLoans(BigInteger id) throws Exception {
+        String contractAddress=loadTest1Addr();
+        Test1 test1=Test1.load(contractAddress,client,cryptoKeyPair);
+        return test1.getLoans(id);
+    }
+    public BigInteger getReceipt(BigInteger id) throws Exception {
+        String contractAddress=loadTest1Addr();
+        Test1 test1=Test1.load(contractAddress,client,cryptoKeyPair);
+        return test1.getReceiptAmount(id);
+    }
+    public void addBalance(BigInteger id,BigInteger amount) throws Exception {
+        String contractAddress=loadTest1Addr();
+        Test1 test1=Test1.load(contractAddress,client,cryptoKeyPair);
+        test1.addBalance(id,amount);
+    }
     public static void main(String[] args) throws Exception {
-
+        //test
         client client = new client();
         client.initialize();
         String s="deploy";

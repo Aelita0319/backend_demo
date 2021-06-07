@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 4568
 
 #spring:
 #  # datasource 数据源配置内容

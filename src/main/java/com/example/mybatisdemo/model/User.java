@@ -7,22 +7,22 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "company_name", nullable = false)
     private String companyName;
 
+    @Column(name = "fixed_assets", nullable = false)
+    private Double fixedAssets;
+
+    @Column(name = "current_assets", nullable = false)
+    private Double currentAssets;
+
     @Column(nullable = false)
-    private Double principle;
+    private Double loans;
 
     public User() {
-    }
-
-    public User(Integer id, String companyName, Double principle) {
-        this.id = id;
-        this.companyName = companyName;
-        this.principle = principle;
     }
 
     public Integer getId() {
@@ -41,12 +41,28 @@ public class User {
         this.companyName = companyName;
     }
 
-    public Double getPrinciple() {
-        return principle;
+    public Double getFixedAssets() {
+        return fixedAssets;
     }
 
-    public void setPrinciple(Double principle) {
-        this.principle = principle;
+    public void setFixedAssets(Double principle) {
+        this.fixedAssets = principle;
+    }
+
+    public Double getCurrentAssets() {
+        return currentAssets;
+    }
+
+    public void setCurrentAssets(Double currentAssets) {
+        this.currentAssets = currentAssets;
+    }
+
+    public Double getLoans() {
+        return loans;
+    }
+
+    public void setLoans(Double loans) {
+        this.loans = loans;
     }
 
     @Override

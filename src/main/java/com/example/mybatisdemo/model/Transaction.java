@@ -1,20 +1,27 @@
 package com.example.mybatisdemo.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "transactions")
 public class Transaction {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY, generator = "JDBC")
     private Integer id;
 
     @Column(name = "payer", nullable = false)
     private int payer;
 
     @Column(name = "receiver", nullable = false)
-    private int receiverId;
+    private int receiver;
+
+    @Column
+    private Date time;
+
+    @Column
+    private Integer month;
 
     @Column(nullable = false)
     private double amount;
@@ -26,15 +33,6 @@ public class Transaction {
     private int type;
 
     public Transaction() {}
-
-    public Transaction(Integer id, int payer, int receiverId, double amount, int status, int type) {
-        this.id = id;
-        this.payer = payer;
-        this.receiverId = receiverId;
-        this.amount = amount;
-        this.status = status;
-        this.type = type;
-    }
 
     public Integer getId() {
         return id;
@@ -52,12 +50,12 @@ public class Transaction {
         this.payer = payerId;
     }
 
-    public int getReceiverId() {
-        return receiverId;
+    public int getReceiver() {
+        return receiver;
     }
 
-    public void setReceiverId(int receiverId) {
-        this.receiverId = receiverId;
+    public void setReceiver(int receiverId) {
+        this.receiver = receiverId;
     }
 
     public double getAmount() {
@@ -82,5 +80,21 @@ public class Transaction {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public Integer getMonth() {
+        return month;
+    }
+
+    public void setMonth(Integer month) {
+        this.month = month;
     }
 }

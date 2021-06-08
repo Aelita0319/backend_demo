@@ -9,5 +9,5 @@ import java.util.List;
 
 //@RepositoryRestResource(path = "rest")
 public interface BanksRepository extends PagingAndSortingRepository<Bank, Integer> {
-    List<Bank> findByName(@Param("name") String name);
+    Bank findByName(@Param("name") String name);
 }

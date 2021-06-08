@@ -5,12 +5,14 @@ import javax.persistence.*;
 @Table(name = "banks")
 public class Bank {
     @Id
-//    @GeneratedValue(strategy=GenerationType.AUTO)
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "JDBC")
     private Integer id;
 
     @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
+    private Double interest;
 
     @Column()
     private Double arg1;
@@ -62,5 +64,13 @@ public class Bank {
 
     public void setArg3(Double arg3) {
         this.arg3 = arg3;
+    }
+
+    public Double getInterest() {
+        return interest;
+    }
+
+    public void setInterest(Double interest) {
+        this.interest = interest;
     }
 }

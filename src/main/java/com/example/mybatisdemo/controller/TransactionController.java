@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 @RequestMapping(path="/transaction")
 public class TransactionController {
@@ -20,5 +22,11 @@ public class TransactionController {
     public @ResponseBody Integer addNewTransaction(Transaction transaction){
         Transaction result = transactionRepository.save(transaction);
         return result.getId();
+    }
+
+    @RequestMapping(value = "/find/status")
+    public @ResponseBody List<Transaction> findByStatus(int status){
+        List<Transaction> result = transactionRepository.findByStatus(status);
+        return result;
     }
 }

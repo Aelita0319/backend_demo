@@ -23,4 +23,10 @@ public class UserController {
         return result.getId();
     }
 
+    @RequestMapping(value = "/find")
+    public @ResponseBody User findByName(@RequestParam String companyName){
+        User result = usersRepository.findByCompanyName(companyName);
+        return result;
+    }
+
 }

@@ -30,6 +30,23 @@ public class BankController {
         return result;
     }
 
-//    @RequestMapping(value = "/update")
-//    public @ResponseBody String updateArg(){}
+    @RequestMapping(value = "/update/args")
+    public @ResponseBody Integer updateArg(
+            @RequestParam String name, @RequestParam Double arg1, @RequestParam Double arg2, @RequestParam Double arg3){
+        Bank target = banksRepository.findByName(name);
+        target.setArg1(arg1);
+        target.setArg2(arg2);
+        target.setArg3(arg3);
+        banksRepository.save(target);
+        return target.getId();
+    }
+
+    @RequestMapping(value = "/update/interest")
+    public @ResponseBody Integer updateInterest(
+            @RequestParam String name, @RequestParam Double interest){
+        Bank target = banksRepository.findByName(name);
+        target.setInterest(interest);
+        banksRepository.save(target);
+        return target.getId();
+    }
 }

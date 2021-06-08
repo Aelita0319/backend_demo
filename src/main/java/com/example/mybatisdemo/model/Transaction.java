@@ -1,7 +1,7 @@
 package com.example.mybatisdemo.model;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "transactions")
@@ -17,8 +17,8 @@ public class Transaction {
     @Column(name = "receiver", nullable = false)
     private int receiver;
 
-    @Column
-    private Date time;
+    @Column(name = "created_time")
+    private Timestamp time;
 
     @Column
     private Integer month;
@@ -82,11 +82,11 @@ public class Transaction {
         this.type = type;
     }
 
-    public Date getTime() {
+    public Timestamp getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(Timestamp time) {
         this.time = time;
     }
 

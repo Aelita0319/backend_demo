@@ -46,7 +46,7 @@ public class Account {
         return privilege;
     }
 
-    public void setPrivilege(Integer privilige) {
-        this.privilege = privilige;
+    public void setPrivilege(Integer privilege) {
+        this.privilege = privilege;
     }
 }

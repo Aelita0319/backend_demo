@@ -22,13 +22,18 @@ public class UserController {
     @RequestMapping(value = "/add")
     public @ResponseBody Integer addUser(User user) throws Exception {
         User result = userRepository.save(user);
+        MainController.client.signIn(BigInteger.valueOf(result.getId()),result.getCompanyName(),
+                BigDecimal.valueOf(result.getFixedAssets()+result.getCurrentAssets()).toBigInteger(),"");
         return result.getId();
     }
 
     @RequestMapping(value = "/update/fixedAssets")
     public @ResponseBody Integer updateFixedAssets(
-            @RequestParam String companyName, @RequestParam Double fixedAssets){
+            @RequestParam String companyName, @RequestParam Double fixedAssets) throws Exception {
         User target = userRepository.findByCompanyName(companyName);
+        Double addition = fixedAssets - target.getFixedAssets();
+        MainController.client.addBalance(BigInteger.valueOf(target.getId()),
+                BigDecimal.valueOf(addition).toBigInteger());
         target.setFixedAssets(fixedAssets);
         userRepository.save(target);
         return target.getId();
@@ -36,8 +41,11 @@ public class UserController {
 
     @RequestMapping(value = "/update/currentAssets")
     public @ResponseBody Integer updateCurrentAssets(
-            @RequestParam String companyName, @RequestParam Double currentAssets){
+            @RequestParam String companyName, @RequestParam Double currentAssets) throws Exception {
         User target = userRepository.findByCompanyName(companyName);
+        Double addition = currentAssets - target.getCurrentAssets();
+        MainController.client.addBalance(BigInteger.valueOf(target.getId()),
+                BigDecimal.valueOf(addition).toBigInteger());
         target.setCurrentAssets(currentAssets);
         return target.getId();
     }

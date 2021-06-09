@@ -2,8 +2,10 @@ package com.example.mybatisdemo.controller;
 
 import com.example.mybatisdemo.model.Transaction;
 import com.example.mybatisdemo.model.User;
+import com.example.mybatisdemo.repository.BankRepository;
 import com.example.mybatisdemo.repository.TransactionRepository;
 import com.example.mybatisdemo.repository.UserRepository;
+import org.fisco.bcos.sdk.abi.datatypes.generated.tuples.generated.Tuple4;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,9 @@ public class TransactionController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private BankRepository bankRepository;
+
 //    @RequestMapping(value = "/add")
 //    public @ResponseBody Integer addTransaction(Transaction transaction){
 //        Transaction result = transactionRepository.save(transaction);
@@ -35,7 +40,9 @@ public class TransactionController {
             @RequestParam String payer, @RequestParam String receiver, @RequestParam Integer month,
             @RequestParam Double amount, @RequestParam Integer status, @RequestParam Integer type) throws Exception {
         Transaction transaction = new Transaction();
-        Integer payerId = userRepository.findByCompanyName(payer).getId();
+        Integer payerId;
+        if (type==1) payerId = bankRepository.findByName(payer).getId();
+        else payerId = userRepository.findByCompanyName(payer).getId();
         Integer receiverId = userRepository.findByCompanyName(receiver).getId();
         transaction.setPayer(payerId);
         transaction.setReceiver(receiverId);
@@ -50,11 +57,16 @@ public class TransactionController {
                     BigInteger.valueOf(receiverId), BigDecimal.valueOf(amount).toBigInteger());
         }
         else if (type==1){
-            MainController.client.loans(BigInteger.valueOf(receiverId), BigDecimal.valueOf(amount).toBigInteger());
+            MainController.client.loans(BigInteger.valueOf(receiverId),
+                    BigInteger.valueOf(payerId), BigDecimal.valueOf(amount).toBigInteger());
         }
         else if (type==2){
             MainController.client.receipt(BigInteger.valueOf(payerId),
                     BigInteger.valueOf(receiverId), BigDecimal.valueOf(amount).toBigInteger());
+        }
+        else if (type==3){
+            MainController.client.addBalance(BigInteger.valueOf(payerId),
+                    BigDecimal.valueOf(amount).toBigInteger());
         }
 
         return transaction.getId();
@@ -122,5 +134,46 @@ public class TransactionController {
     public @ResponseBody List<Transaction> findByTypeAndStatus(@RequestParam Integer type, @RequestParam Integer status){
         List<Transaction> result = transactionRepository.findByTypeAndStatus(type,status);
         return result;
+    }
+
+    @RequestMapping(value = "/check")
+    public @ResponseBody Boolean checkBlockchain() throws Exception {
+        int total = MainController.client.getNumberOfDeals().intValue();
+        for (int i=0;i<total;i++){
+            Tuple4<String, BigInteger, BigInteger, BigInteger> deal =
+                    MainController.client.getDeal(BigInteger.valueOf(i));
+            Transaction cur = transactionRepository.getOne(i+1);
+            int type = cur.getType();
+            //type: 0:buy, 1:loan, 2:receipt, 3.own
+            if (type==0) { // buy: user to user
+                if (!deal.getValue1().equals("buy")|| !deal.getValue2().equals(BigInteger.valueOf(cur.getPayer())) ||
+                        !deal.getValue3().equals(BigInteger.valueOf(cur.getReceiver()))||
+                                !deal.getValue4().equals(BigDecimal.valueOf(cur.getAmount()).toBigInteger())){
+                    return false;
+                }
+            }
+            else if (type==1){
+                if (!deal.getValue1().equals("loan")|| !deal.getValue2().equals(BigInteger.valueOf(cur.getReceiver())) ||
+                        !deal.getValue3().equals(BigInteger.valueOf(cur.getPayer()))||
+                        !deal.getValue4().equals(BigDecimal.valueOf(cur.getAmount()).toBigInteger())){
+                    return false;
+                }
+            }
+            else if (type==2){
+                if (!deal.getValue1().equals("receipt")|| !deal.getValue2().equals(BigInteger.valueOf(cur.getPayer())) ||
+                        !deal.getValue3().equals(BigInteger.valueOf(cur.getReceiver()))||
+                        !deal.getValue4().equals(BigDecimal.valueOf(cur.getAmount()).toBigInteger())){
+                    return false;
+                }
+            }
+            else if (type==3){
+                if (!deal.getValue1().equals("addBalance")|| !deal.getValue2().equals(BigInteger.valueOf(cur.getPayer())) ||
+                        !deal.getValue3().equals(BigInteger.valueOf(0)) ||
+                        !deal.getValue4().equals(BigDecimal.valueOf(cur.getAmount()).toBigInteger())){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

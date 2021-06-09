@@ -37,6 +37,7 @@ public class TransactionController {
         return target.getId();
     }
 
+    //0:buy, 1:loan, 2:receipt, 3:repay
     @RequestMapping(value = "/update/status")
     public @ResponseBody Integer updateStatus(
             @RequestParam Integer id, @RequestParam Integer status){

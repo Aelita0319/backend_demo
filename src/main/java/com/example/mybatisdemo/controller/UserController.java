@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 @Controller
 @RequestMapping(path="/user")
 public class UserController {
@@ -17,8 +20,10 @@ public class UserController {
     private UserRepository userRepository;
 
     @RequestMapping(value = "/add")
-    public @ResponseBody Integer addUser(User user){
+    public @ResponseBody Integer addUser(User user) throws Exception {
         User result = userRepository.save(user);
+        MainController.client.addBalance(BigInteger.valueOf(result.getId()),
+                BigDecimal.valueOf(result.getFixedAssets()).toBigInteger());
         return result.getId();
     }
 

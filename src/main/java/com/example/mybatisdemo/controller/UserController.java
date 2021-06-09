@@ -22,8 +22,6 @@ public class UserController {
     @RequestMapping(value = "/add")
     public @ResponseBody Integer addUser(User user) throws Exception {
         User result = userRepository.save(user);
-        MainController.client.addBalance(BigInteger.valueOf(result.getId()),
-                BigDecimal.valueOf(result.getFixedAssets()).toBigInteger());
         return result.getId();
     }
 

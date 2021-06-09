@@ -24,13 +24,13 @@ public class Transaction {
     private Integer month;
 
     @Column(nullable = false)
-    private double amount;
+    private Double amount;
 
     @Column(nullable = false)
-    private int status;
+    private Integer status;
 
     @Column(nullable = false)
-    private int type;
+    private Integer type;
 
     public Transaction() {}
 
@@ -58,27 +58,27 @@ public class Transaction {
         this.receiver = receiverId;
     }
 
-    public double getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
-    public int getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

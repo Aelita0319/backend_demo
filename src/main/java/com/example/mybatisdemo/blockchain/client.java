@@ -1,6 +1,8 @@
 package com.example.mybatisdemo.blockchain;
 
 import org.fisco.bcos.sdk.BcosSDK;
+import org.fisco.bcos.sdk.abi.datatypes.generated.tuples.generated.Tuple3;
+import org.fisco.bcos.sdk.abi.datatypes.generated.tuples.generated.Tuple4;
 import org.fisco.bcos.sdk.client.Client;
 import org.fisco.bcos.sdk.crypto.keypair.CryptoKeyPair;
 import org.slf4j.Logger;
@@ -94,10 +96,10 @@ public class client {
         Test1 test1=Test1.load(contractAddress,client,cryptoKeyPair);
         test1.buy(id1,id2,amount);
     }
-    public void loans(BigInteger id,BigInteger amount) throws Exception {
+    public void loans(BigInteger id,BigInteger bankId,BigInteger amount) throws Exception {
         String contractAddress=loadTest1Addr();
         Test1 test1=Test1.load(contractAddress,client,cryptoKeyPair);
-        test1.loans(id,amount);
+        test1.loans(id,bankId,amount);
     }
     public void receipt(BigInteger id1,BigInteger id2,BigInteger amount) throws Exception {
         String contractAddress=loadTest1Addr();
@@ -118,6 +120,21 @@ public class client {
         String contractAddress=loadTest1Addr();
         Test1 test1=Test1.load(contractAddress,client,cryptoKeyPair);
         test1.addBalance(id,amount);
+    }
+    public BigInteger getNumberOfDeals() throws Exception {
+        String contractAddress=loadTest1Addr();
+        Test1 test1=Test1.load(contractAddress,client,cryptoKeyPair);
+        return test1.getNumberOfDeals();
+    }
+    public Tuple4<String,BigInteger,BigInteger,BigInteger> getDeal(BigInteger DealId) throws Exception {
+        String contractAddress=loadTest1Addr();
+        Test1 test1=Test1.load(contractAddress,client,cryptoKeyPair);
+        return test1.getDeals(DealId);
+    }
+    public void repay(BigInteger id,BigInteger bankId,BigInteger amount) throws Exception {
+        String contractAddress=loadTest1Addr();
+        Test1 test1=Test1.load(contractAddress,client,cryptoKeyPair);
+        test1.repay(id,bankId,amount);
     }
     public static void main(String[] args) throws Exception {
         //test

@@ -11,5 +11,6 @@ public interface TransactionRepository extends JpaRepository<Transaction,Integer
     List<Transaction> findByReceiver(int receiver);
     List<Transaction> findByPayerAndReceiver(int pater, int receiver);
     List<Transaction> findByStatus(int status);
+    List<Transaction> findByType(int types);
     List<Transaction> findByTypeAndStatus(int type, int status);
 }

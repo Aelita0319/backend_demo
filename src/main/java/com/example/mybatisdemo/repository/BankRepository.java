@@ -7,6 +7,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 //@RepositoryRestResource(path = "rest")
-public interface BanksRepository extends JpaRepository<Bank, Integer> {
+public interface BankRepository extends JpaRepository<Bank, Integer> {
     Bank findByName(@Param("name") String name);
 }

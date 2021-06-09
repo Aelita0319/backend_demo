@@ -7,6 +7,6 @@ import com.example.mybatisdemo.model.User;
 // This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
 // CRUD refers Create, Read, Update, Delete
 
-public interface UsersRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Integer> {
     User findByCompanyName(String companyName);
 }

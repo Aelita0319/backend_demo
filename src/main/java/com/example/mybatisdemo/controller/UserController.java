@@ -60,8 +60,13 @@ public class UserController {
 
     @RequestMapping(value = "/find")
     public @ResponseBody User findUserByName(@RequestParam String companyName){
-        User result = userRepository.findByCompanyName(companyName);
-        return result;
+        try {
+            User result = userRepository.findByCompanyName(companyName);
+            return result;
+        }
+        catch (NullPointerException e){
+            return null;
+        }
     }
 
 }

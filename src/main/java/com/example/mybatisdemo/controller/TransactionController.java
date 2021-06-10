@@ -94,9 +94,14 @@ public class TransactionController {
     @RequestMapping(value = "/find/payer")
     public @ResponseBody List<Transaction> findByPayer(@RequestParam String payer){
         User user = userRepository.findByCompanyName(payer);
-        int payerId = user.getId();
-        List<Transaction> result = transactionRepository.findByPayer(payerId);
-        return result;
+        try {
+            int payerId = user.getId();
+            List<Transaction> result = transactionRepository.findByPayer(payerId);
+            return result;
+        }
+        catch (NullPointerException e){
+            return null;
+        }
     }
 
 

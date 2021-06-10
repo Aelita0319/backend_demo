@@ -23,10 +23,15 @@ public class AccountController {
 
     @RequestMapping(value = "/check")
     public @ResponseBody Integer checkAccount(@RequestParam String name, @RequestParam String password){
-        Account target = accountRepository.findByName(name);
-        if (target.getPassword().equals(password)){
-            return target.getPrivilege();
+        try {
+            Account target = accountRepository.findByName(name);
+            if (target.getPassword().equals(password)){
+                return target.getPrivilege();
+            }
+            else return -1;
         }
-        else return -1;
+        catch (NullPointerException e){
+            return -1;
+        }
     }
 }

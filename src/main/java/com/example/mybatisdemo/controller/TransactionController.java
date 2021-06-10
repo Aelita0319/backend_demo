@@ -50,6 +50,7 @@ public class TransactionController {
         transaction.setAmount(amount);
         transaction.setType(type);
         transaction.setStatus(status);
+        transactionRepository.save(transaction);
 
         //type: 0:buy, 1:loan, 2:receipt, 3.own
         if (type==0) { // buy: user to user

@@ -39,7 +39,7 @@ public class AccountController {
             user.setLoans((double) 0);
             userRepository.save(user);
             MainController.client.signIn(BigInteger.valueOf(user.getId()),user.getCompanyName(),
-                    BigDecimal.valueOf(user.getFixedAssets()+user.getCurrentAssets()).toBigInteger(),"");
+                    BigDecimal.valueOf(user.getFixedAssets()+user.getCurrentAssets()).toBigInteger(),account.getPassword());
         }
         else if (result.getPrivilege()==2){
             Bank bank = new Bank();

@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 @Controller
 @RequestMapping(path="/account")
 public class AccountController {
@@ -25,13 +28,18 @@ public class AccountController {
     private BankRepository bankRepository;
 
     @RequestMapping(value = "/add")
-    public @ResponseBody Integer addAccount(Account account){
+    public @ResponseBody Integer addAccount(Account account) throws Exception {
         //0:user, 1:admin, 2:bank
         Account result = accountRepository.save(account);
         if (result.getPrivilege()==0){
             User user = new User();
             user.setCompanyName(account.getName());
+            user.setFixedAssets((double) 0);
+            user.setCurrentAssets((double) 0);
+            user.setLoans((double) 0);
             userRepository.save(user);
+            MainController.client.signIn(BigInteger.valueOf(user.getId()),user.getCompanyName(),
+                    BigDecimal.valueOf(user.getFixedAssets()+user.getCurrentAssets()).toBigInteger(),"");
         }
         else if (result.getPrivilege()==2){
             Bank bank = new Bank();

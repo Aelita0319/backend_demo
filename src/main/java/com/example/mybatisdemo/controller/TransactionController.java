@@ -99,6 +99,7 @@ public class TransactionController {
         return result;
     }
 
+
     @RequestMapping(value = "/find/receiver")
     public @ResponseBody List<Transaction> findByReceiver(@RequestParam String receiver){
         User user = userRepository.findByCompanyName(receiver);
@@ -175,5 +176,11 @@ public class TransactionController {
             }
         }
         return true;
+    }
+
+    @RequestMapping(value = "/find/all")
+    public @ResponseBody List<Transaction> findByAll(){
+        List<Transaction> list = transactionRepository.findAll();
+        return list;
     }
 }

@@ -22,8 +22,11 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/check")
-    public @ResponseBody Boolean checkAccount(@RequestParam String name, @RequestParam String password){
+    public @ResponseBody Integer checkAccount(@RequestParam String name, @RequestParam String password){
         Account target = accountRepository.findByName(name);
-        return target.getPassword().equals(password);
+        if (target.getPassword().equals(password)){
+            return target.getPrivilege();
+        }
+        else return -1;
     }
 }
